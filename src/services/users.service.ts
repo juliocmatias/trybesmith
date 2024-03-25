@@ -1,12 +1,25 @@
+import ProductModel from '../database/models/product.model';
 import UserModel, 
 { UserSequelizeModel } from '../database/models/user.model';
-// import { User } from '../types';
+import { UsersProductsFormatted } from '../types';
 import { ServiceResponse } from '../types/ServicesResponse';
 
-const getAll = async (): Promise<ServiceResponse<UserSequelizeModel[]>> => {
+const formattedUsersProducts = (usersWithProducts: UserSequelizeModel[]): UsersProductsFormatted => 
+  usersWithProducts.map(({ dataValues: { username, productIds } }: UserSequelizeModel) => ({
+    username,
+    productIds: productIds ? productIds.map((product) => product.id) : [],
+  }));
+
+const getAll = async (): Promise<ServiceResponse<UsersProductsFormatted>> => {
   try {
-    const users = await UserModel.findAll();
-    return { status: 'SUCCESSFUL', data: users };
+    const usersWithProducts: UserSequelizeModel[] = await UserModel.findAll({
+      include: [
+        { model: ProductModel, as: 'productIds', attributes: ['id'] },
+      ],
+      attributes: ['username'],
+    });
+    const result = formattedUsersProducts(usersWithProducts);
+    return { status: 'SUCCESSFUL', data: result };
   } catch (error) {
     let message = '';
     if (error instanceof Error) {

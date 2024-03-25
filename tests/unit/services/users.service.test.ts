@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import UserModel, 
 { UserSequelizeModel } from '../../../src/database/models/user.model';
 import { usersService } from '../../../src/services';
+import { usersWithProducts } from '../../mocks/usersWithProducts';
 
 describe('UsersService', function () {
   beforeEach(function () { sinon.restore(); });
@@ -11,10 +12,7 @@ describe('UsersService', function () {
     it('should return all users', async function () {
       // triple A
       // Arrange
-      const users: UserSequelizeModel[] = [
-        { id: 1, username: 'user1', vocation: 'mage', level: 1, password: 'password' } as unknown as UserSequelizeModel,
-        { id: 2, username: 'user2', vocation: 'warrior', level: 2, password: 'password' } as unknown as UserSequelizeModel,
-      ];
+      const users = usersWithProducts;
 
       sinon.stub(UserModel, 'findAll').resolves(users);
 
