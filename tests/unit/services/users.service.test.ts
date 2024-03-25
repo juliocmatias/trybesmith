@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import UserModel, 
 { UserSequelizeModel } from '../../../src/database/models/user.model';
 import { usersService } from '../../../src/services';
-import { usersWithProducts } from '../../mocks/usersWithProducts';
+import { usersWithProductsId, usersProductsIdFormatted } from '../../mocks/usersWithProducts';
 
 describe('UsersService', function () {
   beforeEach(function () { sinon.restore(); });
@@ -12,9 +12,9 @@ describe('UsersService', function () {
     it('should return all users', async function () {
       // triple A
       // Arrange
-      const users = usersWithProducts;
+      // const users = usersWithProductsId;
 
-      sinon.stub(UserModel, 'findAll').resolves(users);
+      sinon.stub(UserModel, 'findAll').resolves(usersWithProductsId);
 
       // Act
 
@@ -23,13 +23,14 @@ describe('UsersService', function () {
       // Assert
 
       expect(response.status).to.be.eq('SUCCESSFUL');
-      expect(response.data).to.be.deep.eq(users);
+      expect(response.data).to.be.deep.eq(usersProductsIdFormatted);
+      
     });
 
     it('should return an error if an error occurs', async function () {
       // triple A
       // Arrange
-      sinon.stub(UserModel, 'findAll').throws('Error');
+      sinon.stub(UserModel, 'findAll').throws(new Error('Internal server error'));
 
       // Act
 
@@ -38,6 +39,7 @@ describe('UsersService', function () {
       // Assert
 
       expect(response.status).to.be.eq('INTERNAL_SERVER_ERROR');
+      expect(response.data).to.be.deep.eq({ message: 'Internal server error' });
     });
 
   });

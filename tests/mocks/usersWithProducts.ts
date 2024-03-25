@@ -13,25 +13,6 @@ export const usersProductsIdFormatted: UsersProductsFormatted = [
 ];
 
 export const usersWithProductsId = [
-  {
-    "username": "Hagar",
-    "productIds": [
-      {
-        "id": 1
-      },
-      {
-        "id": 2
-      }
-    ]
-  },
-  {
-    "username": "Eddie",
-    "productIds": [
-      {
-        "id": 3
-      },
-      {
-        "id": 4
-      }
-    ]
-  } ];
+  { dataValues: { username: "Hagar", productIds: [{ id: 1 }, { id: 2 }] } },
+  { dataValues: { username: "Eddie", productIds: [{ id: 3 }, { id: 4 }] } },
+ ] as unknown as UserSequelizeModel[];
