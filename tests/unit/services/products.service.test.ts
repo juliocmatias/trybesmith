@@ -8,7 +8,7 @@ import UserModel from '../../../src/database/models/user.model';
 describe('ProductsService', function () {
   beforeEach(function () { sinon.restore(); });
 
-  describe('Create', function () {
+  describe('create', function () {
     beforeEach(function () { sinon.restore(); });
     it('Test whether it is possible to register a new product', async function () {
       // triple A
@@ -91,7 +91,7 @@ describe('ProductsService', function () {
     });
   });
 
-  describe('getProducts', function () {
+  describe('getAll', function () {
     beforeEach(function () { sinon.restore(); });
     it('Test whether it is possible to list all products.', async function () {
       // triple A
@@ -117,7 +117,7 @@ describe('ProductsService', function () {
   
       // Act
   
-      const response = await productsService.getProducts();
+      const response = await productsService.getAll();
   
       // Assert
   
@@ -134,7 +134,7 @@ describe('ProductsService', function () {
   
       // Act
   
-      const response = await productsService.getProducts();
+      const response = await productsService.getAll();
   
       // Assert
   

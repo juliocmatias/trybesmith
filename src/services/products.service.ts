@@ -23,7 +23,7 @@ const create = async (product: ProductInputtableTypes): Promise<ServiceResponse<
   }
 };
 
-const getProducts = async (): Promise<ServiceResponse<ProductSequelizeModel[]>> => {
+const getAll = async (): Promise<ServiceResponse<ProductSequelizeModel[]>> => {
   try {
     const products = await ProductModel.findAll();
     return { status: 'SUCCESSFUL', data: products };
@@ -36,4 +36,4 @@ const getProducts = async (): Promise<ServiceResponse<ProductSequelizeModel[]>> 
   }
 };
 
-export default { create, getProducts };
+export default { create, getAll };
