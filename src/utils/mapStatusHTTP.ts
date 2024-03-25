@@ -17,6 +17,6 @@ const httpMap = {
 };
 type StatusKey = keyof StatusHttpSuccess | keyof StatusHttpError;
 
-const mapStatusHTTP = (status: StatusKey) => httpMap[status] || 500;
+const mapStatusHTTP = (status: StatusKey): number => httpMap[status] || 500;
 
 export default mapStatusHTTP;
