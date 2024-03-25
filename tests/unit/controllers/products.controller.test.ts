@@ -3,8 +3,8 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import { Request, Response } from 'express';
 import { Product } from '../../../src/types';
-import productsController from '../../../src/controllers';
-import productsService from '../../../src/services';
+import { productsController } from '../../../src/controllers';
+import { productsService } from '../../../src/services';
 import { ProductSequelizeModel } from '../../../src/database/models/product.model';
 
 chai.use(sinonChai);

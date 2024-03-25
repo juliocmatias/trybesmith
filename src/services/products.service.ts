@@ -36,4 +36,7 @@ const getAll = async (): Promise<ServiceResponse<ProductSequelizeModel[]>> => {
   }
 };
 
-export default { create, getAll };
+export default { 
+  create, 
+  getAll, 
+};

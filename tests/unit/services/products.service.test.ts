@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import productsService from '../../../src/services';
+import { productsService } from '../../../src/services';
 import ProductModel, { ProductSequelizeModel } from '../../../src/database/models/product.model';
 import { Product } from '../../../src/types';
 import UserModel from '../../../src/database/models/user.model';

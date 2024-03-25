@@ -1,3 +1,4 @@
 import productsRouter from './products.router';
 
-export default productsRouter;
+// eslint-disable-next-line import/prefer-default-export
+export { productsRouter };
