@@ -1,30 +1,26 @@
+import UserModel, { UserSequelizeModel } from '../database/models/user.model';
 import ProductModel from '../database/models/product.model';
-import UserModel, 
-{ UserSequelizeModel } from '../database/models/user.model';
-import { UsersProductsFormatted } from '../types';
-import { ServiceResponse } from '../types/ServicesResponse';
+import { UsersProductsFormatted, ServiceResponse } from '../types';
 
 const formattedUsersProducts = (usersWithProducts: UserSequelizeModel[]): UsersProductsFormatted => 
   usersWithProducts.map(({ dataValues: { username, productIds } }: UserSequelizeModel) => ({
     username,
-    productIds: productIds ? productIds.map((product) => product.id) : [],
+    productIds: productIds ? productIds.map(({ id }) => id) : [],
   }));
 
 const getAll = async (): Promise<ServiceResponse<UsersProductsFormatted>> => {
   try {
-    const usersWithProducts: UserSequelizeModel[] = await UserModel.findAll({
+    const users: UserSequelizeModel[] = await UserModel.findAll({
       include: [
         { model: ProductModel, as: 'productIds', attributes: ['id'] },
       ],
       attributes: ['username'],
     });
-    const result = formattedUsersProducts(usersWithProducts);
+    
+    const result: UsersProductsFormatted = formattedUsersProducts(users);
     return { status: 'SUCCESSFUL', data: result };
   } catch (error) {
-    let message = '';
-    if (error instanceof Error) {
-      message = error.message;
-    }
+    const message = error instanceof Error ? error.message : 'Unknown error occurred';
     return { status: 'INTERNAL_SERVER_ERROR', data: { message } };
   }
 };
