@@ -4,7 +4,7 @@ import UserModel, { UserSequelizeModel } from '../../../src/database/models/user
 import { loginService } from '../../../src/services';
 import { user, findUserModel, userNameInvalid, passwordInvalid } from '../../mocks/login';
 
-describe.only('LoginService', function () {
+describe('LoginService', function () {
   beforeEach(function () { sinon.restore(); });
   it('should return a token if the user exists', async function () {
     // triple A
