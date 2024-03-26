@@ -10,7 +10,7 @@ describe('LoginService', function () {
     // triple A
     // Arrange
 
-    sinon.stub(UserModel, 'findOne').resolves(findUserModel as unknown as UserSequelizeModel);
+    sinon.stub(UserModel, 'findOne').resolves(findUserModel);
     // Act
 
     const response = await loginService.login(user.username, user.password);

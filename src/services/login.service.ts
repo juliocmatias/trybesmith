@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import UserModel from '../database/models/user.model';
 import { ServiceResponse } from '../types';
 import jwt from '../utils/jwt';
@@ -7,7 +8,7 @@ Promise<ServiceResponse<{ token: string }>> => {
   try {
     const user = await UserModel.findOne({ where: { username } });
 
-    if (!user || user.dataValues.password !== password) {
+    if (!user || !bcrypt.compareSync(password, user.dataValues.password)) {
       return { status: 'UNAUTHORIZED',
         data: { message: 'Username or password invalid' } };
     }

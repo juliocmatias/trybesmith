@@ -1,11 +1,17 @@
-export const user = {
+import bcrypt from 'bcryptjs';
+import { User } from "../../src/types";
+import { UserSequelizeModel } from '../../src/database/models/user.model';
+
+const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS || 10;
+
+export const user: User = {
   username: 'Hagar',
-  password: '$2a$10$5rR2VW15skt5Xa9o7yu/7.vaRucPk9/62/djErTjWJGQeYsV6eqci'
-}
+  password: 'terrível'
+} as User;
 
 export const userNameInvalid = {
   username: 'Hagar1',
-  password: '$2a$10$5rR2VW15skt5Xa9o7yu/7.vaRucPk9/62/djErTjWJGQeYsV6eqci'
+  password: 'terrível'
 }
 
 export const passwordInvalid = {
@@ -13,10 +19,14 @@ export const passwordInvalid = {
   password: '123456'
 }
 
-export const findUserModel = {
+export const findUserModel: UserSequelizeModel = {
   dataValues: {
     id: 1,
     username: 'Hagar',
-    password: '$2a$10$5rR2VW15skt5Xa9o7yu/7.vaRucPk9/62/djErTjWJGQeYsV6eqci'
+    vocation: 'Guerreiro',
+    level: 10,
+    password: bcrypt.hashSync('terrível', SALT_ROUNDS)
   }
-}
+} as unknown as UserSequelizeModel;
+
+const senha = 'terrível';
