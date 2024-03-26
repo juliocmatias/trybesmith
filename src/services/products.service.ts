@@ -8,17 +8,12 @@ const create = async (product: ProductInputtableTypes): Promise<ServiceResponse<
   try {
     const user = await UserModel.findByPk(product.userId);
 
-    if (!user) {
-      return { status: 'NOT_FOUND', data: { message: 'User not found' } };
-    }
+    if (!user) return { status: 'UNPROCESSABLE_ENTITY', data: { message: '"userId" not found' } };
 
     const createdProduct = await ProductModel.create(product);
     return { status: 'CREATED', data: createdProduct.dataValues };
   } catch (error) {
-    let message = '';
-    if (error instanceof Error) {
-      message = error.message;
-    }
+    const message = error instanceof Error ? error.message : 'Unknown error occurred';
     return { status: 'INTERNAL_SERVER_ERROR', data: { message } };
   }
 };
@@ -28,10 +23,7 @@ const getAll = async (): Promise<ServiceResponse<ProductSequelizeModel[]>> => {
     const products = await ProductModel.findAll();
     return { status: 'SUCCESSFUL', data: products };
   } catch (error) {
-    let message = '';
-    if (error instanceof Error) {
-      message = error.message;
-    }
+    const message = error instanceof Error ? error.message : 'Unknown error occurred';
     return { status: 'INTERNAL_SERVER_ERROR', data: { message } };
   }
 };

@@ -61,8 +61,8 @@ describe('ProductsService', function () {
   
       // Assert
   
-      expect(response.status).to.be.eq('NOT_FOUND');
-      expect(response.data).to.be.deep.eq({ message: 'User not found' });
+      expect(response.status).to.be.eq('UNPROCESSABLE_ENTITY');
+      expect(response.data).to.be.deep.eq({ message: '"userId" not found' });
     });
   
     it('Tests whether, when an error occurs when registering a new product, the productsService captures it.', async function () {
