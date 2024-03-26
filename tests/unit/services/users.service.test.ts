@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import UserModel, 
-{ UserSequelizeModel } from '../../../src/database/models/user.model';
+import UserModel from '../../../src/database/models/user.model';
 import { usersService } from '../../../src/services';
 import { usersWithProductsId, usersProductsIdFormatted } from '../../mocks/usersWithProducts';
 
