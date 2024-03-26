@@ -18,7 +18,7 @@ describe('LoginController', function () {
     sinon.restore();
   });
 
-  it.only('should return a token if the user exists', async function () {
+  it('should return a token if the user exists', async function () {
     // triple A
     // Arrange
     
