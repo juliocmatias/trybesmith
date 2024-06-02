@@ -1,0 +1,329 @@
+{
+	"openapi": "3.0.2",
+	"info": {
+		"title": "Trybesmith API RESTful",
+		"description": "Developed in Node, TypeScript, Express, Sequelize and MySQL, this API is a RESTful service from a medieval store, where it is possible to verify login with Bcrypt in addition to being able to register a new product and search for all products in the database.",
+		"version": "1.0.0",
+		"contact": {
+			"name": "Julio Matias",
+			"email": "juliocesark2@hotmail.com"
+		},
+		"license": {
+			"name": "ISC",
+			"url": "https://opensource.org/licenses/ISC"
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3001",
+			"description": "Local server for development"
+		}
+	],
+	"tags": [
+    {
+      "name": "Login",
+      "description": "Operations related to login"
+    },
+		{
+			"name": "Users",
+			"description": "Operations related to users"
+		},
+		{
+			"name": "Products",
+			"description": "create, and get all products"
+		}
+	],
+	"paths": {
+    "/login": {
+      "post" : {
+        "tags": ["Login"],
+        "summary": "Login",
+        "description": "Login with username and password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              },
+              "example": {
+                "username": "Hagar",
+                "password": "terrível"
+              }
+            }
+          },
+          "required": true,
+          "description": "As API is just for example, password for each database username are: \"terrível\", \"sortudo\", \"valquíria\" and you can get each username from the users endpoint."
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/token"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "message": "\"username\" and \"password\" are required"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "message": "Username or password invalid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "message": "Unknown error occurred"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users",
+        "description": "Get all users and their ids of products",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users"
+                },
+                "example": 
+                [
+                  {
+                    "username": "Hagar",
+                    "productIds": [1, 2]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get all products",
+        "description": "Get all products",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/product"
+                  }
+                },
+                "example": 
+                [
+                  {
+                    "id": 1,
+                    "name": "Excalibur",
+                    "price": "10 peças de ouro",
+                    "userId": 1
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "message": "Unknown error occurred"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Products"],
+        "summary": "Create a new product",
+        "description": "Create a new product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/product"
+              },
+              "example": {
+                "name": "Excalibur",
+                "price": "10 peças de ouro",
+                "userId": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/product"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "message": "\"name\" is required"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "message": "\"userId\" must be a number"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "message": "Unknown error occurred"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+	"components": {
+		"schemas": {
+			"error": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"token": {
+				"type": "object",
+				"properties": {
+					"token": {
+						"type": "string"
+					}
+				}
+			},
+			"user": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer"
+					},
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				]
+			},
+			"users": {
+				"type": "array",
+				"items": {
+					"type": "object",
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "productIds": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+				}
+			},
+      "product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "price",
+          "userId"
+        ]
+      }
+		}
+	}
+}
